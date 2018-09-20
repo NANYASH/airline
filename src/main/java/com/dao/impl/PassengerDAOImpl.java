@@ -8,10 +8,13 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Repository
 @Transactional
 public class PassengerDAOImpl implements PassengerDAO{
+
+    private static final String SELECT_REGULAR_PASSENGERS = "";
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -30,5 +33,11 @@ public class PassengerDAOImpl implements PassengerDAO{
         Passenger passenger = entityManager.find(Passenger.class,id);
         entityManager.remove(passenger);
         return passenger;
+    }
+
+    //more than 25 flights per year
+    @Override
+    public List<Passenger> regularPassengers() {
+        return null;
     }
 }

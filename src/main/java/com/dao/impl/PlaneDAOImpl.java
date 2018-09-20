@@ -8,10 +8,14 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Repository
 @Transactional
 public class PlaneDAOImpl implements PlaneDAO{
+
+    private static final String SELECT_OLD_PLANES = "";
+    private static final String SELECT_REGULAR_PLANES = "";
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -30,5 +34,17 @@ public class PlaneDAOImpl implements PlaneDAO{
         Plane plane = entityManager.find(Plane.class,id);
         entityManager.remove(plane);
         return plane;
+    }
+
+    //planes older than 25 years
+    @Override
+    public List<Plane> oldPlanes() {
+        return null;
+    }
+
+    //more than 300 flights per year
+    @Override
+    public List<Plane> regularPlanes(int year) {
+        return null;
     }
 }
