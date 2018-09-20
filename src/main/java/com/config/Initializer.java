@@ -10,7 +10,6 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
 
 
-
 public class Initializer implements WebApplicationInitializer {
 
     private static final String DISPATCHER_SERVLET_NAME = "dispatcher";

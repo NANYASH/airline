@@ -64,7 +64,6 @@ public class AppConfig {
         return transactionManager;
     }
 
-
     @Bean
     public FlightDAO flightDAO() {
         return new FlightDAOImpl();
