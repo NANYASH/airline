@@ -102,4 +102,15 @@ public class Passenger {
         result = 31 * result + (flights != null ? flights.hashCode() : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "Passenger{" +
+                "id=" + id +
+                ", lastName='" + lastName + '\'' +
+                ", nationality='" + nationality + '\'' +
+                ", dateOfBirth=" + dateOfBirth +
+                ", passportCode='" + passportCode + '\'' +
+                '}';
+    }
 }

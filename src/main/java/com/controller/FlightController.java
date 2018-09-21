@@ -31,20 +31,20 @@ public class FlightController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/flightsByDate", produces = "text/plain")
     @ResponseBody
-    public List<Flight> flightsByDate(HttpServletRequest req) throws BadRequestException {
-        return flightService.flightsByDate(mapToFilter(req));
+    public String flightsByDate(HttpServletRequest req) throws BadRequestException {
+        return flightService.flightsByDate(mapToFilter(req)).toString();
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/mostPopularTo", produces = "text/plain")
     @ResponseBody
-    public List<Flight> mostPopularTo() {
-        return flightService.mostPopularTo();
+    public String mostPopularTo() {
+        return flightService.mostPopularTo().toString();
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/mostPopularFrom", produces = "text/plain")
     @ResponseBody
-    public List<Flight> mostPopularFrom(){
-        return flightService.mostPopularFrom();
+    public String mostPopularFrom(){
+        return flightService.mostPopularFrom().toString();
     }
 
     private Filter mapToFilter(HttpServletRequest req) throws BadRequestException {

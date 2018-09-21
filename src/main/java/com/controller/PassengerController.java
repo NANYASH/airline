@@ -1,7 +1,6 @@
 package com.controller;
 
 
-import com.entity.Passenger;
 import com.service.PassengerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.List;
 
 @Controller
 public class PassengerController {
@@ -23,8 +21,8 @@ public class PassengerController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/regularPassengers", produces = "text/plain")
     @ResponseBody
-    public List<Passenger> regularPassengers() {
-        return passengerService.regularPassengers();
+    public String regularPassengers() {
+        return passengerService.regularPassengers().toString();
     }
 
 }

@@ -86,4 +86,15 @@ public class Plane {
         result = 31 * result + (avgFuelConsumption != null ? avgFuelConsumption.hashCode() : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "Plane{" +
+                "id=" + id +
+                ", model='" + model + '\'' +
+                ", code='" + code + '\'' +
+                ", yearProduced=" + yearProduced +
+                ", avgFuelConsumption=" + avgFuelConsumption +
+                '}';
+    }
 }

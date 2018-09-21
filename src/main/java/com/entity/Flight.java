@@ -29,7 +29,7 @@ public class Flight {
         this.id = id;
     }
 
-    @OneToOne(targetEntity = Plane.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(targetEntity = Plane.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "ID_PLANE")
     public Plane getPlane() {
         return plane;
@@ -39,10 +39,10 @@ public class Flight {
         this.plane = plane;
     }
 
-    @ManyToMany(targetEntity = Passenger.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(targetEntity = Passenger.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "FLIGHT_PASSENGER",
-            joinColumns = @JoinColumn(name = "FLIGHT_ID"),
-            inverseJoinColumns = @JoinColumn(name = "PASSENGER_ID")
+            joinColumns = @JoinColumn(name = "ID_FLIGHT"),
+            inverseJoinColumns = @JoinColumn(name = "ID_PASSENGER")
     )
     public List<Passenger> getPassengers() {
         return passengers;
@@ -104,5 +104,16 @@ public class Flight {
         result = 31 * result + (cityFrom != null ? cityFrom.hashCode() : 0);
         result = 31 * result + (cityTo != null ? cityTo.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Flight{" +
+                "id=" + id +
+                ", plane=" + plane +
+                ", dateFlight=" + dateFlight +
+                ", cityFrom='" + cityFrom + '\'' +
+                ", cityTo='" + cityTo + '\'' +
+                '}';
     }
 }
