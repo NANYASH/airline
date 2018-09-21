@@ -19,7 +19,7 @@ public class PassengerServiceImpl implements PassengerService{
     }
 
     @Override
-    public List<Passenger> regularPassengers() {
-        return null;
+    public List<Passenger> regularPassengers(int year) {
+        return passengerDAO.regularPassengers(year);
     }
 }

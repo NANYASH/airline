@@ -15,8 +15,8 @@ public interface FlightService {
     List<Flight> flightsByDate(Filter filter);
 
     //top 10 flights by cityTo
-    List<Flight> mostPopularTo();
+    String mostPopularTo();
 
     //top 10 flights by cityFrom
-    List<Flight> mostPopularFrom();
+    String mostPopularFrom();
 }

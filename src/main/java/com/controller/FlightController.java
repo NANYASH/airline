@@ -38,13 +38,13 @@ public class FlightController {
     @RequestMapping(method = RequestMethod.GET, value = "/mostPopularTo", produces = "text/plain")
     @ResponseBody
     public String mostPopularTo() {
-        return flightService.mostPopularTo().toString();
+        return flightService.mostPopularTo();
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/mostPopularFrom", produces = "text/plain")
     @ResponseBody
     public String mostPopularFrom(){
-        return flightService.mostPopularFrom().toString();
+        return flightService.mostPopularFrom();
     }
 
     private Filter mapToFilter(HttpServletRequest req) throws BadRequestException {

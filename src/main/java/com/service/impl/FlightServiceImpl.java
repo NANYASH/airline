@@ -25,12 +25,12 @@ public class FlightServiceImpl implements FlightService{
     }
 
     @Override
-    public List<Flight> mostPopularTo() {
+    public String mostPopularTo() {
         return flightDAO.mostPopularTo();
     }
 
     @Override
-    public List<Flight> mostPopularFrom(){
+    public String mostPopularFrom(){
         return flightDAO.mostPopularFrom();
     }
 }

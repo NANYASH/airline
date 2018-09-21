@@ -21,11 +21,11 @@ public class PlaneServiceImpl implements PlaneService{
 
     @Override
     public List<Plane> oldPlanes() {
-        return null;
+        return planeDAO.oldPlanes();
     }
 
     @Override
     public List<Plane> regularPlanes(int year) {
-        return null;
+        return planeDAO.regularPlanes(year);
     }
 }

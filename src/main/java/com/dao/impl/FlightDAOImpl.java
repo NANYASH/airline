@@ -17,9 +17,19 @@ import java.util.List;
 @Transactional
 public class FlightDAOImpl implements FlightDAO{
 
-    private static final String SELECT_FLIGHT_BY_PARAMETERS = "SELECT * FROM FLIGHT";
-    private static final String SELECT_MOST_POPULAR_FLIGHT_BY_ARR_CITY = "";
-    private static final String SELECT_MOST_POPULAR_FLIGHT_DEP_CITY = "";
+    private static final String SELECT_FLIGHT_BY_PARAMETERS = "";
+    private static final String SELECT_MOST_POPULAR_FLIGHT_DEP_CITY = "SELECT CITY_FROM FROM " +
+            "(SELECT CITY_FROM,COUNT(CITY_FROM) AS counted " +
+            "FROM FLIGHT JOIN FLIGHT_PASSENGER ON FLIGHT.ID = FLIGHT_PASSENGER.ID_FLIGHT " +
+            "WHERE rownum = 1 " +
+            "GROUP BY CITY_FROM) " +
+            "ORDER BY counted DESC";
+    private static final String SELECT_MOST_POPULAR_FLIGHT_BY_ARR_CITY = "SELECT CITY_TO FROM " +
+            "(SELECT CITY_TO,COUNT(CITY_TO) AS counted " +
+            "FROM FLIGHT JOIN FLIGHT_PASSENGER ON FLIGHT.ID = FLIGHT_PASSENGER.ID_FLIGHT " +
+            "WHERE rownum = 1 " +
+            "GROUP BY CITY_TO) " +
+            "ORDER BY counted DESC";
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -50,17 +60,15 @@ public class FlightDAOImpl implements FlightDAO{
         return null;
     }
 
-    //top 10 flights by cityTo
     @Override
-
-    public List<Flight> mostPopularTo() {
-      List<Flight> flights = entityManager.createNativeQuery(SELECT_FLIGHT_BY_PARAMETERS,Flight.class).getResultList();
-      return flights;
+    public String mostPopularTo() {
+      String city = entityManager.createNativeQuery(SELECT_MOST_POPULAR_FLIGHT_BY_ARR_CITY).getSingleResult().toString();
+      return city;
     }
 
-    //top 10 flights by cityFrom
     @Override
-    public List<Flight> mostPopularFrom() {
-        return null;
+    public String mostPopularFrom() {
+        String city = entityManager.createNativeQuery(SELECT_MOST_POPULAR_FLIGHT_DEP_CITY).getSingleResult().toString();
+        return city;
     }
 }

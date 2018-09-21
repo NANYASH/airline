@@ -10,7 +10,7 @@ public interface FlightDAO {
     
     List<Flight> flightsByDate(Filter filter);
     
-    List<Flight> mostPopularTo();
+    String mostPopularTo();
     
-    List<Flight> mostPopularFrom();
+    String mostPopularFrom();
 }

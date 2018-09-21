@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface PassengerDAO {
     
-    List<Passenger> regularPassengers();
+    List<Passenger> regularPassengers(int year);
 }
