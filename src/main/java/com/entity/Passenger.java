@@ -64,7 +64,8 @@ public class Passenger {
     public void setPassportCode(String passportCode) {
         this.passportCode = passportCode;
     }
-    @OneToMany( targetEntity = Flight.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "passengerFlights")
+
+    @ManyToMany(mappedBy = "passengers")
     public List<Flight> getFlights() {
         return flights;
     }

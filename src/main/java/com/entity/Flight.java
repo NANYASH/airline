@@ -39,7 +39,11 @@ public class Flight {
         this.plane = plane;
     }
 
-    @OneToMany( targetEntity = Passenger.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "planePassengers")
+    @ManyToMany(targetEntity = Passenger.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "FLIGHT_PASSENGER",
+            joinColumns = @JoinColumn(name = "FLIGHT_ID"),
+            inverseJoinColumns = @JoinColumn(name = "PASSENGER_ID")
+    )
     public List<Passenger> getPassengers() {
         return passengers;
     }

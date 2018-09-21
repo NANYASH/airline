@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import javax.persistence.*;
 import java.util.Date;
 
+@Entity
+@Table(name = "PLANE")
 public class Plane {
     private Long id;
     private String model;
