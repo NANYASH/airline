@@ -21,7 +21,7 @@ public class FlightServiceImpl implements FlightService{
 
     @Override
     public List<Flight> flightsByDate(Filter filter) {
-        return null;
+        return flightDAO.flightsByDate(filter);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.util;
 
 
+import com.exception.BadRequestException;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.util.Date;
@@ -41,7 +42,7 @@ public class FilterBuilder {
         return this;
     }
 
-    public Filter built(){
+    public Filter built() throws BadRequestException {
         Filter filter = new Filter();
 
         if (cityFrom!=null)
@@ -61,7 +62,11 @@ public class FilterBuilder {
             filter.setDateTo(dateTo);
             filter.setDateFrom(dateFrom);
         }
+        if (filter.getCityFrom()!=null || filter.getCityTo()!=null ||
+                filter.getModel()!=null|| filter.getDateFrom()!=null)
         return filter;
+
+       throw new BadRequestException("Nothing to filter!");
     }
 
 }

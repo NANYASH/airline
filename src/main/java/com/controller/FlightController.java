@@ -1,6 +1,7 @@
 package com.controller;
 
 
+import com.exception.BadRequestException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.service.FlightService;
 import com.util.Filter;
@@ -33,7 +34,7 @@ public class FlightController {
                                 @RequestParam(required = false) Date dateTo,
                                 @RequestParam(required = false) String cityFrom,
                                 @RequestParam(required = false) String cityTo,
-                                @RequestParam(required = false) String model){
+                                @RequestParam(required = false) String model) throws BadRequestException {
         Filter filter= new FilterBuilder()
                 .createCityFromFilter(cityFrom)
                 .createCityToFilter(cityTo)
