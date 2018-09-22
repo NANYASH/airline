@@ -29,7 +29,6 @@ public class PlaneController {
     @RequestMapping(method = RequestMethod.GET, value = "/regularPlanes", produces = "text/plain")
     @ResponseBody
     public String regularPlanes(@RequestParam int year) {
-
         return planeService.regularPlanes(year).toString();
     }
 }

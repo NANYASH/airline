@@ -2,7 +2,6 @@ package com.controller;
 
 
 import com.exception.BadRequestException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.service.FlightService;
 import com.util.Filter;
 import com.util.FilterBuilder;
@@ -54,5 +53,4 @@ public class FlightController {
     public String mostPopularFrom(){
         return flightService.mostPopularFrom();
     }
-
 }
