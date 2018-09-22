@@ -2,14 +2,12 @@ package com.dao.impl;
 
 
 import com.dao.FlightDAO;
-import com.entity.Filter;
+import com.util.Filter;
 import com.entity.Flight;
-import org.hibernate.query.NativeQuery;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.transaction.Transactional;
 import java.util.List;
 
@@ -17,7 +15,13 @@ import java.util.List;
 @Transactional
 public class FlightDAOImpl implements FlightDAO{
 
-    private static final String SELECT_FLIGHT_BY_PARAMETERS = "";
+    private static final String SELECT_FLIGHT_BY_DATE = "SELECT * FROM FLIGHT WHERE DATE_FLIGHT = ?";
+    private static final String SELECT_FLIGHT_BY_DATES = "SELECT * FROM FLIGHT WHERE DATE_FLIGHT > ? AND DATE_FLIGHT < ?";
+    private static final String SELECT_FLIGHT_BY_CITY_DEP = "SELECT * FROM FLIGHT WHERE CITY_FROM = ?";
+    private static final String SELECT_FLIGHT_BY_CITY_ARR = "SELECT * FROM FLIGHT WHERE CITY_TO = ?";
+    private static final String SELECT_FLIGHT_BY_PLANE_MODEL = "SELECT * FROM FLIGHT JOIN PLANE ON FLIGHT.ID_PLANE = PLANE.ID " +
+            "WHERE PLANE_MODEL = ?";
+
     private static final String SELECT_MOST_POPULAR_FLIGHT_DEP_CITY = "SELECT CITY_FROM FROM " +
             "(SELECT CITY_FROM,COUNT(CITY_FROM) AS counted " +
             "FROM FLIGHT JOIN FLIGHT_PASSENGER ON FLIGHT.ID = FLIGHT_PASSENGER.ID_FLIGHT " +

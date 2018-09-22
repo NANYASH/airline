@@ -2,7 +2,7 @@ package com.service.impl;
 
 
 import com.dao.FlightDAO;
-import com.entity.Filter;
+import com.util.Filter;
 import com.entity.Flight;
 import com.service.FlightService;
 import org.springframework.beans.factory.annotation.Autowired;

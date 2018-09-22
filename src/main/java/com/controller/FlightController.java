@@ -1,21 +1,18 @@
 package com.controller;
 
 
-import com.entity.Filter;
-import com.entity.Flight;
-import com.exception.BadRequestException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.service.FlightService;
+import com.util.Filter;
+import com.util.FilterBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-import java.util.List;
+import java.util.Date;
 
 @Controller
 public class FlightController {
@@ -31,8 +28,20 @@ public class FlightController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/flightsByDate", produces = "text/plain")
     @ResponseBody
-    public String flightsByDate(HttpServletRequest req) throws BadRequestException {
-        return flightService.flightsByDate(mapToFilter(req)).toString();
+    public String flightsByDate(@RequestParam(required = false) Date dateFlight,
+                                @RequestParam(required = false) Date dateFrom,
+                                @RequestParam(required = false) Date dateTo,
+                                @RequestParam(required = false) String cityFrom,
+                                @RequestParam(required = false) String cityTo,
+                                @RequestParam(required = false) String model){
+        Filter filter= new FilterBuilder()
+                .createCityFromFilter(cityFrom)
+                .createCityToFilter(cityTo)
+                .createModelFilter(model)
+                .createFilterByDate(dateFlight)
+                .createFilterByDates(dateFrom,dateTo)
+                .built();
+        return flightService.flightsByDate(filter).toString();
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/mostPopularTo", produces = "text/plain")
@@ -47,15 +56,4 @@ public class FlightController {
         return flightService.mostPopularFrom();
     }
 
-    private Filter mapToFilter(HttpServletRequest req) throws BadRequestException {
-        try {
-            return mapper.readValue(
-                    mapper.writeValueAsString(mapper.readTree(req.getInputStream()).path("filter")),
-                    new TypeReference<Filter>() {
-                    });
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new BadRequestException("Cannot be mapped to Filter object");
-        }
-    }
 }
