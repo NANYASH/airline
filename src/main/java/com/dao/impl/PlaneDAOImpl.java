@@ -17,12 +17,11 @@ public class PlaneDAOImpl implements PlaneDAO{
 
     private static final String SELECT_OLD_PLANES = "SELECT * FROM PLANE " +
             "where trunc(sysdate) -  trunc(PLANE.YEAR_PRODUCED) > 25*365";
-    private static final String SELECT_REGULAR_PLANES = "SELECT ID,PLANE_MODEL,CODE,YEAR_PRODUCED,AVG_FUEL_CONSUMPTION FROM " +
-            "(SELECT PLANE.ID,PLANE_MODEL,CODE,YEAR_PRODUCED,AVG_FUEL_CONSUMPTION,COUNT(ID_PLANE) AS counted " +
+    private static final String SELECT_REGULAR_PLANES = "SELECT PLANE.ID,PLANE_MODEL,CODE,YEAR_PRODUCED,AVG_FUEL_CONSUMPTION " +
             "FROM FLIGHT JOIN FLIGHT_PASSENGER ON FLIGHT.ID = FLIGHT_PASSENGER.ID_FLIGHT JOIN PLANE ON FLIGHT.ID_PLANE = PLANE.ID " +
             "WHERE to_char(DATE_FLIGHT, 'yyyy') = ? " +
-            "GROUP BY PLANE.ID, PLANE_MODEL, CODE, YEAR_PRODUCED, AVG_FUEL_CONSUMPTION) " +
-            "WHERE counted > 300";
+            "GROUP BY PLANE.ID, PLANE_MODEL, CODE, YEAR_PRODUCED, AVG_FUEL_CONSUMPTION " +
+            "HAVING COUNT(ID_PLANE)>300";
 
     @PersistenceContext
     private EntityManager entityManager;
