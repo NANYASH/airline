@@ -22,7 +22,7 @@ public class PlaneDAOImpl implements PlaneDAO{
             "FROM FLIGHT JOIN FLIGHT_PASSENGER ON FLIGHT.ID = FLIGHT_PASSENGER.ID_FLIGHT JOIN PLANE ON FLIGHT.ID_PLANE = PLANE.ID " +
             "WHERE to_char(DATE_FLIGHT, 'yyyy') = ? " +
             "GROUP BY PLANE.ID, PLANE_MODEL, CODE, YEAR_PRODUCED, AVG_FUEL_CONSUMPTION) " +
-            "WHERE counted > 2";
+            "WHERE counted > 300";
 
     @PersistenceContext
     private EntityManager entityManager;

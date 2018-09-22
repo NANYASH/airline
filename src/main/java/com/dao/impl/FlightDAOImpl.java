@@ -2,14 +2,12 @@ package com.dao.impl;
 
 
 import com.dao.FlightDAO;
-import com.exception.BadRequestException;
 import com.util.Filter;
 import com.entity.Flight;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.transaction.Transactional;
 import java.util.List;
 
@@ -58,7 +56,7 @@ public class FlightDAOImpl implements FlightDAO{
     //planeModel
     @Override
     public List<Flight> flightsByDate(Filter filter) {
-        List<Flight> flights = entityManager.createNativeQuery(buitQuery(filter),Flight.class).getResultList();
+        List<Flight> flights = entityManager.createNativeQuery(buidQuery(filter),Flight.class).getResultList();
         return flights;
     }
 
@@ -74,7 +72,7 @@ public class FlightDAOImpl implements FlightDAO{
         return city;
     }
 
-    private String buitQuery(Filter filter){
+    private String buidQuery(Filter filter){
         String queryString = SELECT_FLIGHT_BY_PARAMETERS;
 
         if (filter.getCityTo()!= null) {
@@ -114,7 +112,6 @@ public class FlightDAOImpl implements FlightDAO{
                 queryString +=" MODEL = \'"+filter.getModel()+"\'";
             }
         }
-
         return queryString;
     }
 

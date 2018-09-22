@@ -19,12 +19,10 @@ import java.util.Date;
 public class FlightController {
 
     private FlightService flightService;
-    private ObjectMapper mapper;
 
     @Autowired
     public FlightController(FlightService flightService) {
         this.flightService = flightService;
-        this.mapper = new ObjectMapper();
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/flightsByDate", produces = "text/plain")
@@ -41,7 +39,7 @@ public class FlightController {
                 .createModelFilter(model)
                 .createFilterByDate(dateFlight)
                 .createFilterByDates(dateFrom,dateTo)
-                .built();
+                .build();
         return flightService.flightsByDate(filter).toString();
     }
 

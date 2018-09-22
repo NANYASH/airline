@@ -42,7 +42,7 @@ public class FilterBuilder {
         return this;
     }
 
-    public Filter built() throws BadRequestException {
+    public Filter build() throws BadRequestException {
         Filter filter = new Filter();
 
         if (cityFrom!=null)
