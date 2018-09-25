@@ -62,11 +62,8 @@ public class FilterBuilder {
             filter.setDateTo(dateTo);
             filter.setDateFrom(dateFrom);
         }
-        if (filter.getCityFrom()!=null || filter.getCityTo()!=null ||
-                filter.getModel()!=null|| filter.getDateFrom()!=null)
-        return filter;
 
-       throw new BadRequestException("Nothing to filter!");
+        return filter;
     }
 
 }

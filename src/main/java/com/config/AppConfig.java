@@ -105,10 +105,8 @@ public class AppConfig {
     public PassengerController passengerController(PassengerService passengerService) {
         return new PassengerController(passengerService);
     }
-
     @Bean
     public PlaneController planeController(PlaneService planeService) {
         return new PlaneController(planeService);
     }
-
 }

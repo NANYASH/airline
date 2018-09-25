@@ -6,14 +6,12 @@ import com.util.Filter;
 import com.entity.Flight;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.util.List;
 
 @Repository
 @Transactional
-public class FlightDAOImpl implements FlightDAO{
+public class FlightDAOImpl extends GenericDAO implements FlightDAO{
 
     private static String SELECT_FLIGHT_BY_PARAMETERS = "SELECT * FROM FLIGHT WHERE ";
 
@@ -30,23 +28,20 @@ public class FlightDAOImpl implements FlightDAO{
             "GROUP BY CITY_TO) " +
             "ORDER BY counted DESC";
 
-    @PersistenceContext
-    private EntityManager entityManager;
-
 
     public Flight save(Flight flight){
-        entityManager.persist(flight);
+        super.getEntityManager().persist(flight);
         return flight;
     }
 
     public Flight update(Flight flight){
-        entityManager.merge(flight);
+        super.getEntityManager().merge(flight);
         return flight;
     }
 
     public Flight delete(long id){
-        Flight flight = entityManager.find(Flight.class,id);
-        entityManager.remove(flight);
+        Flight flight = super.getEntityManager().find(Flight.class,id);
+        super.getEntityManager().remove(flight);
         return flight;
     }
     //by flightDate
@@ -56,19 +51,19 @@ public class FlightDAOImpl implements FlightDAO{
     //planeModel
     @Override
     public List<Flight> flightsByDate(Filter filter) {
-        List<Flight> flights = entityManager.createNativeQuery(buidQuery(filter),Flight.class).getResultList();
+        List<Flight> flights = super.getEntityManager().createNativeQuery(buidQuery(filter),Flight.class).getResultList();
         return flights;
     }
 
     @Override
     public String mostPopularTo() {
-      String city = entityManager.createNativeQuery(SELECT_MOST_POPULAR_FLIGHT_BY_ARR_CITY).getSingleResult().toString();
+      String city = super.getEntityManager().createNativeQuery(SELECT_MOST_POPULAR_FLIGHT_BY_ARR_CITY).getSingleResult().toString();
       return city;
     }
 
     @Override
     public String mostPopularFrom() {
-        String city = entityManager.createNativeQuery(SELECT_MOST_POPULAR_FLIGHT_DEP_CITY).getSingleResult().toString();
+        String city = super.getEntityManager().createNativeQuery(SELECT_MOST_POPULAR_FLIGHT_DEP_CITY).getSingleResult().toString();
         return city;
     }
 
