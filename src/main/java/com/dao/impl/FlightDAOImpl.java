@@ -50,7 +50,9 @@ public class FlightDAOImpl extends GenericDAO implements FlightDAO{
     //planeModel
     @Override
     public List<Flight> flightsByDate(Filter filter) {
-        String query = new QueryBuilder().buildQuery(filter);
+        String query = new QueryBuilder().
+                createFilter(filter).
+                buildQuery();
         List<Flight> flights = super.getEntityManager().createNativeQuery(query,Flight.class).getResultList();
         return flights;
     }
