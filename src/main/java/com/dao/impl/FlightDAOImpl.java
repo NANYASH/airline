@@ -43,11 +43,7 @@ public class FlightDAOImpl extends GenericDAO implements FlightDAO{
         super.getEntityManager().remove(flight);
         return flight;
     }
-    //by flightDate
-    //fromDate/toDate
-    //cityFrom
-    //cityTo
-    //planeModel
+
     @Override
     public List<Flight> flightsByDate(Filter filter) {
         String query = new QueryBuilder().
