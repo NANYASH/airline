@@ -4,6 +4,7 @@ package com.dao.impl;
 import com.dao.FlightDAO;
 import com.util.Filter;
 import com.entity.Flight;
+import com.util.QueryBuilder;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
@@ -12,8 +13,6 @@ import java.util.List;
 @Repository
 @Transactional
 public class FlightDAOImpl extends GenericDAO implements FlightDAO{
-
-    private static String SELECT_FLIGHT_BY_PARAMETERS = "SELECT * FROM FLIGHT WHERE ";
 
     private static final String SELECT_MOST_POPULAR_FLIGHT_DEP_CITY = "SELECT CITY_FROM FROM " +
             "(SELECT CITY_FROM,COUNT(CITY_FROM) AS counted " +
@@ -51,7 +50,8 @@ public class FlightDAOImpl extends GenericDAO implements FlightDAO{
     //planeModel
     @Override
     public List<Flight> flightsByDate(Filter filter) {
-        List<Flight> flights = super.getEntityManager().createNativeQuery(buidQuery(filter),Flight.class).getResultList();
+        String query = new QueryBuilder().buildQuery(filter);
+        List<Flight> flights = super.getEntityManager().createNativeQuery(query,Flight.class).getResultList();
         return flights;
     }
 
@@ -67,47 +67,5 @@ public class FlightDAOImpl extends GenericDAO implements FlightDAO{
         return city;
     }
 
-    private String buidQuery(Filter filter){
-        String queryString = SELECT_FLIGHT_BY_PARAMETERS;
-
-        if (filter.getCityTo()!= null) {
-            if (!queryString.equals(SELECT_FLIGHT_BY_PARAMETERS)){
-                queryString +=" AND CITY_TO = \'"+filter.getCityTo()+"\'";
-            }else {
-                queryString += " CITY_TO = \'"+filter.getCityTo()+"\'";
-            }
-        }
-        if (filter.getCityFrom()!= null) {
-            if (!queryString.equals(SELECT_FLIGHT_BY_PARAMETERS)){
-                queryString +=" AND CITY_FROM = \'"+filter.getCityFrom()+"\'";
-            }else {
-                queryString += " CITY_FROM = \'"+filter.getCityFrom()+"\'";
-            }
-        }
-        if (filter.getDateFlight()!= null) {
-            if (!queryString.equals(SELECT_FLIGHT_BY_PARAMETERS)){
-                queryString +=" AND DATE_FLIGHT = \'"+filter.getDateFlight()+"\'";
-            }else {
-                queryString += " DATE_FLIGHT = \'"+filter.getDateFlight()+"\'";
-            }
-        }
-        if (filter.getDateFlight()!= null) {
-            if (!queryString.equals(SELECT_FLIGHT_BY_PARAMETERS)){
-                queryString +=" AND DATE_FROM = \'"+filter.getDateFrom()+"\'";
-                queryString +=" AND DATE_TO = \'"+filter.getDateTo()+"\'";
-            }else {
-                queryString += " DATE_FROM = \'"+filter.getDateFrom()+"\'";
-                queryString +=" AND DATE_TO = \'"+filter.getDateTo()+"\'";
-            }
-        }
-        if (filter.getModel()!= null) {
-            if (!queryString.equals(SELECT_FLIGHT_BY_PARAMETERS)){
-                queryString +=" AND MODEL = \'"+filter.getModel()+"\'";
-            }else {
-                queryString +=" MODEL = \'"+filter.getModel()+"\'";
-            }
-        }
-        return queryString;
-    }
 
 }

@@ -29,7 +29,7 @@ public class Flight {
         this.id = id;
     }
 
-    @OneToOne(targetEntity = Plane.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(targetEntity = Plane.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "ID_PLANE")
     public Plane getPlane() {
         return plane;
@@ -39,7 +39,7 @@ public class Flight {
         this.plane = plane;
     }
 
-    @ManyToMany(targetEntity = Passenger.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(targetEntity = Passenger.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "FLIGHT_PASSENGER",
             joinColumns = @JoinColumn(name = "ID_FLIGHT"),
             inverseJoinColumns = @JoinColumn(name = "ID_PASSENGER")
