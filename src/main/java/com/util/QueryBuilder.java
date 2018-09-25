@@ -55,5 +55,4 @@ public class QueryBuilder {
         return queryBuilder.query.toString();
     }
 
-
 }
