@@ -1,21 +1,7 @@
 package com.config;
 
-import com.controller.FlightController;
-import com.controller.PassengerController;
-import com.controller.PlaneController;
-import com.dao.FlightDAO;
-import com.dao.PassengerDAO;
-import com.dao.PlaneDAO;
-import com.dao.impl.FlightDAOImpl;
-import com.dao.impl.PassengerDAOImpl;
-import com.dao.impl.PlaneDAOImpl;
-import com.service.FlightService;
-import com.service.PassengerService;
-import com.service.PlaneService;
-import com.service.impl.FlightServiceImpl;
-import com.service.impl.PassengerServiceImpl;
-import com.service.impl.PlaneServiceImpl;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
@@ -32,6 +18,7 @@ import javax.persistence.EntityManagerFactory;
 @EnableWebMvc
 @Configuration
 @EnableTransactionManagement
+@ComponentScan(basePackages="com")
 public class AppConfig {
 
     @Bean
@@ -64,7 +51,7 @@ public class AppConfig {
         return transactionManager;
     }
 
-    @Bean
+   /* @Bean
     public FlightDAO flightDAO() {
         return new FlightDAOImpl();
     }
@@ -108,5 +95,5 @@ public class AppConfig {
     @Bean
     public PlaneController planeController(PlaneService planeService) {
         return new PlaneController(planeService);
-    }
+    }*/
 }

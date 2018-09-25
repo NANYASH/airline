@@ -4,6 +4,7 @@ import com.entity.Plane;
 
 import java.util.List;
 
+
 public interface PlaneDAO {
     
     List<Plane> oldPlanes();
