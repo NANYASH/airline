@@ -45,12 +45,12 @@ public class FlightController {
     @RequestMapping(method = RequestMethod.GET, value = "/mostPopularTo", produces = "text/plain")
     @ResponseBody
     public String mostPopularTo() {
-        return flightService.mostPopularTo();
+        return flightService.mostPopularTo().toString();
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/mostPopularFrom", produces = "text/plain")
     @ResponseBody
     public String mostPopularFrom(){
-        return flightService.mostPopularFrom();
+        return flightService.mostPopularFrom().toString();
     }
 }

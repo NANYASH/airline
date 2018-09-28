@@ -10,7 +10,7 @@ public interface FlightService {
     
     List<Flight> flightsByDate(Filter filter);
     
-    String mostPopularTo();
+    List<String> mostPopularTo();
     
-    String mostPopularFrom();
+    List<String> mostPopularFrom();
 }

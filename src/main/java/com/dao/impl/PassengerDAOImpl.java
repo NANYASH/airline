@@ -11,7 +11,7 @@ import java.util.List;
 
 @Repository
 @Transactional
-public class PassengerDAOImpl extends GenericDAO implements PassengerDAO{
+public class PassengerDAOImpl extends GenericDAO implements PassengerDAO {
 
     private static final String SELECT_REGULAR_PASSENGERS = "SELECT PASSENGER.ID,LAST_NAME,NATIONALITY,DATE_OF_BIRTH,PASSPORT_CODE " +
             "FROM PASSENGER JOIN FLIGHT_PASSENGER ON PASSENGER.ID = FLIGHT_PASSENGER.ID_PASSENGER JOIN FLIGHT ON FLIGHT.ID = FLIGHT_PASSENGER.ID_FLIGHT " +
@@ -20,27 +20,26 @@ public class PassengerDAOImpl extends GenericDAO implements PassengerDAO{
             "HAVING COUNT(PASSENGER.ID) > 25";
 
 
-    public Passenger save(Passenger passenger){
-        super.getEntityManager().persist(passenger);
+    public Passenger save(Passenger passenger) {
+        getEntityManager().persist(passenger);
         return passenger;
     }
 
-    public Passenger update(Passenger passenger){
-        super.getEntityManager().merge(passenger);
+    public Passenger update(Passenger passenger) {
+        getEntityManager().merge(passenger);
         return passenger;
     }
 
-    public Passenger delete(long id){
-        Passenger passenger = super.getEntityManager().find(Passenger.class,id);
-        super.getEntityManager().remove(passenger);
+    public Passenger delete(long id) {
+        Passenger passenger = getEntityManager().find(Passenger.class, id);
+        getEntityManager().remove(passenger);
         return passenger;
     }
 
     @Override
     public List<Passenger> regularPassengers(int year) {
-        Query query = super.getEntityManager().createNativeQuery(SELECT_REGULAR_PASSENGERS,Passenger.class);
-        query.setParameter(1,year);
-        List<Passenger> passengers = query.getResultList();
-        return passengers;
+        Query query = getEntityManager().createNativeQuery(SELECT_REGULAR_PASSENGERS, Passenger.class);
+        query.setParameter(1, year);
+        return query.getResultList();
     }
 }

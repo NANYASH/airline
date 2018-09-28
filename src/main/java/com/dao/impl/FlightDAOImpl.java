@@ -12,35 +12,35 @@ import java.util.List;
 
 @Repository
 @Transactional
-public class FlightDAOImpl extends GenericDAO implements FlightDAO{
+public class FlightDAOImpl extends GenericDAO implements FlightDAO {
 
     private static final String SELECT_MOST_POPULAR_FLIGHT_DEP_CITY = "SELECT CITY_FROM FROM " +
             "(SELECT CITY_FROM,COUNT(CITY_FROM) AS counted " +
             "FROM FLIGHT JOIN FLIGHT_PASSENGER ON FLIGHT.ID = FLIGHT_PASSENGER.ID_FLIGHT " +
-            "WHERE rownum = 1 " +
+            "WHERE rownum <= 10 " +
             "GROUP BY CITY_FROM) " +
             "ORDER BY counted DESC";
     private static final String SELECT_MOST_POPULAR_FLIGHT_BY_ARR_CITY = "SELECT CITY_TO FROM " +
             "(SELECT CITY_TO,COUNT(CITY_TO) AS counted " +
             "FROM FLIGHT JOIN FLIGHT_PASSENGER ON FLIGHT.ID = FLIGHT_PASSENGER.ID_FLIGHT " +
-            "WHERE rownum = 1 " +
+            "WHERE rownum <= 10 " +
             "GROUP BY CITY_TO) " +
             "ORDER BY counted DESC";
 
 
-    public Flight save(Flight flight){
-        super.getEntityManager().persist(flight);
+    public Flight save(Flight flight) {
+        getEntityManager().persist(flight);
         return flight;
     }
 
-    public Flight update(Flight flight){
-        super.getEntityManager().merge(flight);
+    public Flight update(Flight flight) {
+        getEntityManager().merge(flight);
         return flight;
     }
 
-    public Flight delete(long id){
-        Flight flight = super.getEntityManager().find(Flight.class,id);
-        super.getEntityManager().remove(flight);
+    public Flight delete(long id) {
+        Flight flight = super.getEntityManager().find(Flight.class, id);
+        getEntityManager().remove(flight);
         return flight;
     }
 
@@ -49,20 +49,18 @@ public class FlightDAOImpl extends GenericDAO implements FlightDAO{
         String query = new QueryBuilder().
                 createFilter(filter).
                 buildQuery();
-        List<Flight> flights = super.getEntityManager().createNativeQuery(query,Flight.class).getResultList();
-        return flights;
+        return getEntityManager().createNativeQuery(query, Flight.class).getResultList();
     }
 
     @Override
-    public String mostPopularTo() {
-      String city = super.getEntityManager().createNativeQuery(SELECT_MOST_POPULAR_FLIGHT_BY_ARR_CITY).getSingleResult().toString();
-      return city;
+    public List<String> mostPopularTo() {
+        return getEntityManager().createNativeQuery(SELECT_MOST_POPULAR_FLIGHT_BY_ARR_CITY).getResultList();
+
     }
 
     @Override
-    public String mostPopularFrom() {
-        String city = super.getEntityManager().createNativeQuery(SELECT_MOST_POPULAR_FLIGHT_DEP_CITY).getSingleResult().toString();
-        return city;
+    public List<String> mostPopularFrom() {
+        return getEntityManager().createNativeQuery(SELECT_MOST_POPULAR_FLIGHT_DEP_CITY).getResultList();
     }
 
 
