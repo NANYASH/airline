@@ -12,7 +12,7 @@ public class Plane {
     private Long id;
     private String model;
     private String code;
-    @JsonFormat(pattern = "dd.MM.yyyy")
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private Date yearProduced;
     private Double avgFuelConsumption;
 

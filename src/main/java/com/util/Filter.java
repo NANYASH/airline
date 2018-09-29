@@ -6,11 +6,11 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import java.util.Date;
 
 public class Filter {
-    @JsonFormat(pattern = "dd.MM.yyyy")
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private Date dateFlight;
-    @JsonFormat(pattern = "dd.MM.yyyy")
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private Date dateFrom;
-    @JsonFormat(pattern = "dd.MM.yyyy")
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private Date dateTo;
     private String cityFrom;
     private String cityTo;

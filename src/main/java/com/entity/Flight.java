@@ -14,7 +14,7 @@ public class Flight {
     private Long id;
     private Plane plane;
     private List<Passenger> passengers;
-    @JsonFormat(pattern = "dd.MM.yyyy")
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private Date dateFlight;
     private String cityFrom;
     private String cityTo;

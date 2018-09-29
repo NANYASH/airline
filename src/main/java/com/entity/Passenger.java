@@ -13,7 +13,7 @@ public class Passenger {
     private Long id;
     private String lastName;
     private String nationality;
-    @JsonFormat(pattern = "dd.MM.yyyy")
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private Date dateOfBirth;
     private String passportCode;
     private List<Flight> flights;

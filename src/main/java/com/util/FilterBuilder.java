@@ -8,16 +8,15 @@ import java.util.Date;
 
 public class FilterBuilder {
 
-    @JsonFormat(pattern = "dd.MM.yyyy")
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private Date dateFlight;
-    @JsonFormat(pattern = "dd.MM.yyyy")
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private Date dateFrom;
-    @JsonFormat(pattern = "dd.MM.yyyy")
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private Date dateTo;
     private String cityFrom;
     private String cityTo;
     private String model;
-
 
     public FilterBuilder createFilterByDate(Date dateFlight){
         this.dateFlight = dateFlight;

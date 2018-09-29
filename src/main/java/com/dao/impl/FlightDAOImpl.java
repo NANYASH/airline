@@ -2,9 +2,10 @@ package com.dao.impl;
 
 
 import com.dao.FlightDAO;
+import com.util.CriteriaBuilderQuery;
 import com.util.Filter;
 import com.entity.Flight;
-import com.util.QueryBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
@@ -13,6 +14,13 @@ import java.util.List;
 @Repository
 @Transactional
 public class FlightDAOImpl extends GenericDAO implements FlightDAO {
+
+    CriteriaBuilderQuery criteriaBuilderQuery;
+
+    @Autowired
+    public FlightDAOImpl(CriteriaBuilderQuery criteriaBuilderQuery) {
+        this.criteriaBuilderQuery = criteriaBuilderQuery;
+    }
 
     private static final String SELECT_MOST_POPULAR_FLIGHT_DEP_CITY = "SELECT CITY_FROM FROM " +
             "(SELECT CITY_FROM,COUNT(CITY_FROM) AS counted " +
@@ -46,10 +54,7 @@ public class FlightDAOImpl extends GenericDAO implements FlightDAO {
 
     @Override
     public List<Flight> flightsByDate(Filter filter) {
-        String query = new QueryBuilder().
-                createFilter(filter).
-                buildQuery();
-        return getEntityManager().createNativeQuery(query, Flight.class).getResultList();
+        return criteriaBuilderQuery.getListOfFlights(filter);
     }
 
     @Override
