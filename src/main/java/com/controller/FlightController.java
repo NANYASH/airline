@@ -34,13 +34,13 @@ public class FlightController {
                                 @RequestParam(required = false) String cityFrom,
                                 @RequestParam(required = false) String cityTo,
                                 @RequestParam(required = false) String model) throws BadRequestException {
-        Filter filter= new FilterBuilder()
-                .createCityFromFilter(cityFrom)
-                .createCityToFilter(cityTo)
-                .createModelFilter(model)
-                .createFilterByDate(dateFlight)
-                .createFilterByDates(dateFrom,dateTo)
-                .build();
+        Filter filter= new Filter();
+        filter.setDateFlight(dateFlight);
+        filter.setDateFrom(dateFrom);
+        filter.setDateTo(dateTo);
+        filter.setCityFrom(cityFrom);
+        filter.setCityTo(cityTo);
+        filter.setModel(model);
         return flightService.flightsByDate(filter).toString();
     }
 

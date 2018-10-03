@@ -54,7 +54,7 @@ public class CriteriaBuilderQuery extends GenericDAO{
     }
 
     private CriteriaBuilderQuery createDatesFlight(){
-        if (filter.getDateFrom()!=null) {
+        if (filter.getDateFrom()!=null && filter.getDateTo()!=null) {
             predicate.add(this.builder.between(root.get("dateFlight"), filter.getDateFrom(),filter.getDateTo()));
         }
         return this;
