@@ -3,17 +3,14 @@ package com.util;
 import com.dao.impl.GenericDAO;
 import com.entity.Flight;
 import com.entity.Plane;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.criteria.*;
-import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
-
-@Transactional
-@Repository
-public class CriteriaBuilderQuery extends GenericDAO{
+@Component
+public class CriteriaQueryBuilder extends GenericDAO{
     private Filter filter;
     CriteriaBuilder builder;
     CriteriaQuery<Flight> criteria;
@@ -22,7 +19,8 @@ public class CriteriaBuilderQuery extends GenericDAO{
     Join<Flight,Plane> join;
     List<Predicate> predicate;
 
-    public void init() {
+    public void init(Filter filter) {
+        this.filter = filter;
         this.builder = getEntityManager().getCriteriaBuilder();
         this.criteria = builder.createQuery(Flight.class);
         this.root = criteria.from(Flight.class);
@@ -30,36 +28,31 @@ public class CriteriaBuilderQuery extends GenericDAO{
         this.predicate = new ArrayList<>();
     }
 
-    public CriteriaBuilderQuery createFilter(Filter filter) {
-        this.filter = filter;
-        return this;
-    }
-
-    private CriteriaBuilderQuery createFilterCityTo(){
+    private CriteriaQueryBuilder createFilterCityTo(){
         if (filter.getCityTo()!=null)
             predicate.add(this.builder.equal(root.get("cityTo"),filter.getCityTo()));
         return this;
     }
 
-    private CriteriaBuilderQuery createFilterCityFrom(){
+    private CriteriaQueryBuilder createFilterCityFrom(){
         if (filter.getCityFrom()!=null)
             predicate.add(this.builder.equal(root.get("cityFrom"),filter.getCityFrom()));
         return this;
     }
 
-    private CriteriaBuilderQuery createDateFlight(){
+    private CriteriaQueryBuilder createDateFlight(){
         if (filter.getDateFlight()!=null)
             predicate.add(this.builder.equal(root.get("dateFlight"),filter.getDateFlight()));
         return this;
     }
 
-    private CriteriaBuilderQuery createDatesFlight(){
+    private CriteriaQueryBuilder createDatesFlight(){
         if (filter.getDateFrom()!=null && filter.getDateTo()!=null) {
             predicate.add(this.builder.between(root.get("dateFlight"), filter.getDateFrom(),filter.getDateTo()));
         }
         return this;
     }
-    private CriteriaBuilderQuery createModel(){
+    private CriteriaQueryBuilder createModel(){
         if (filter.getModel()!=null) {
             join = root.join("plane");
             predicate.add(this.builder.equal(join.get("model"),filter.getModel()));
@@ -75,11 +68,9 @@ public class CriteriaBuilderQuery extends GenericDAO{
         createDatesFlight();
     }
 
-    public List<Flight> getListOfFlights(Filter filter){
-        init();
-        createFilter(filter);
+    public CriteriaQuery getFilterQuery(Filter filter){
+        init(filter);
         buildPredicates();
-        select.where(builder.or(predicate.toArray(new Predicate[0])));
-        return getEntityManager().createQuery(select).getResultList();
+        return select.where(builder.or(predicate.toArray(new Predicate[0])));
     }
 }

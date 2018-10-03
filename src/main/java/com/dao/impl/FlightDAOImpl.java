@@ -2,7 +2,7 @@ package com.dao.impl;
 
 
 import com.dao.FlightDAO;
-import com.util.CriteriaBuilderQuery;
+import com.util.CriteriaQueryBuilder;
 import com.util.Filter;
 import com.entity.Flight;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +15,11 @@ import java.util.List;
 @Transactional
 public class FlightDAOImpl extends GenericDAO implements FlightDAO {
 
-    CriteriaBuilderQuery criteriaBuilderQuery;
+    CriteriaQueryBuilder criteriaQueryBuilder;
 
     @Autowired
-    public FlightDAOImpl(CriteriaBuilderQuery criteriaBuilderQuery) {
-        this.criteriaBuilderQuery = criteriaBuilderQuery;
+    public FlightDAOImpl(CriteriaQueryBuilder criteriaQueryBuilder) {
+        this.criteriaQueryBuilder = criteriaQueryBuilder;
     }
 
     private static final String SELECT_MOST_POPULAR_FLIGHT_DEP_CITY = "SELECT CITY_FROM FROM " +
@@ -38,7 +38,7 @@ public class FlightDAOImpl extends GenericDAO implements FlightDAO {
 
     @Override
     public List<Flight> flightsByDate(Filter filter) {
-        return criteriaBuilderQuery.getListOfFlights(filter);
+        return getEntityManager().createQuery(criteriaQueryBuilder.getFilterQuery(filter)).getResultList();
     }
 
     @Override
