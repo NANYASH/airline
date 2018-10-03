@@ -20,22 +20,6 @@ public class PassengerDAOImpl extends GenericDAO implements PassengerDAO {
             "HAVING COUNT(PASSENGER.ID) > 25";
 
 
-    public Passenger save(Passenger passenger) {
-        getEntityManager().persist(passenger);
-        return passenger;
-    }
-
-    public Passenger update(Passenger passenger) {
-        getEntityManager().merge(passenger);
-        return passenger;
-    }
-
-    public Passenger delete(long id) {
-        Passenger passenger = getEntityManager().find(Passenger.class, id);
-        getEntityManager().remove(passenger);
-        return passenger;
-    }
-
     @Override
     public List<Passenger> regularPassengers(int year) {
         Query query = getEntityManager().createNativeQuery(SELECT_REGULAR_PASSENGERS, Passenger.class);

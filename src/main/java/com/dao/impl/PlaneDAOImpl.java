@@ -21,21 +21,6 @@ public class PlaneDAOImpl extends GenericDAO implements PlaneDAO {
             "GROUP BY PLANE.ID, PLANE_MODEL, CODE, YEAR_PRODUCED, AVG_FUEL_CONSUMPTION " +
             "HAVING COUNT(ID_PLANE)>300";
 
-    public Plane save(Plane plane) {
-        getEntityManager().persist(plane);
-        return plane;
-    }
-
-    public Plane update(Plane plane) {
-        getEntityManager().merge(plane);
-        return plane;
-    }
-
-    public Plane delete(long id) {
-        Plane plane = getEntityManager().find(Plane.class, id);
-        getEntityManager().remove(plane);
-        return plane;
-    }
 
     //planes older than 25 years
     @Override

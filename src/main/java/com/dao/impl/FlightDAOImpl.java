@@ -36,22 +36,6 @@ public class FlightDAOImpl extends GenericDAO implements FlightDAO {
             "ORDER BY counted DESC";
 
 
-    public Flight save(Flight flight) {
-        getEntityManager().persist(flight);
-        return flight;
-    }
-
-    public Flight update(Flight flight) {
-        getEntityManager().merge(flight);
-        return flight;
-    }
-
-    public Flight delete(long id) {
-        Flight flight = super.getEntityManager().find(Flight.class, id);
-        getEntityManager().remove(flight);
-        return flight;
-    }
-
     @Override
     public List<Flight> flightsByDate(Filter filter) {
         return criteriaBuilderQuery.getListOfFlights(filter);
