@@ -2,10 +2,8 @@ package com.controller;
 
 
 import com.exception.BadRequestException;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.service.FlightService;
 import com.util.Filter;
-import com.util.FilterBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
