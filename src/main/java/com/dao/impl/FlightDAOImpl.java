@@ -48,16 +48,17 @@ public class FlightDAOImpl extends GenericDAO implements FlightDAO {
     }
 
     private List<Flight> findFlight(Filter filter) {
-        ObjectMapper mapper = new ObjectMapper();
-        Map<String, Object> filterParms = mapper.convertValue(filter, Map.class);
+        Map<String, Object> filterParms = new ObjectMapper().convertValue(filter, Map.class);
 
         CriteriaBuilder builder = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<Flight> criteria = builder.createQuery(Flight.class);
+
         Root<Flight> root = criteria.from(Flight.class);
         CriteriaQuery<Flight> select = criteria.select(root);
-        Predicate predicate = builder.conjunction();
         Join<Flight, Plane> join;
-        
+
+        Predicate predicate = builder.conjunction();
+
         for (String param : filterParms.keySet()) {
             if (param.equals("model")) {
                 join = root.join("plane");
