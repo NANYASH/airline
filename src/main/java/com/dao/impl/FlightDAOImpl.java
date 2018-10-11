@@ -58,6 +58,8 @@ public class FlightDAOImpl extends GenericDAO implements FlightDAO {
 
         Predicate predicate = builder.conjunction();
 
+        // Set<String> params = filterParms.keySet().stream().filter(param -> Objects.nonNull(param)).collect(Collectors.toSet());
+
         for (String param : filterParms.keySet()) {
             if (param.equals("model")) {
                 join = root.join("plane");
