@@ -47,30 +47,30 @@ public class FlightDAOImpl extends GenericDAO implements FlightDAO {
         return getEntityManager().createNativeQuery(SELECT_MOST_POPULAR_FLIGHT_DEP_CITY).getResultList();
     }
 
-    private List<Flight> findFlight(Filter filter){
+    private List<Flight> findFlight(Filter filter) {
         ObjectMapper mapper = new ObjectMapper();
-        Map<String,Object> filterParms = mapper.convertValue(filter,Map.class);
+        Map<String, Object> filterParms = mapper.convertValue(filter, Map.class);
 
         CriteriaBuilder builder = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<Flight> criteria = builder.createQuery(Flight.class);
         Root<Flight> root = criteria.from(Flight.class);
         CriteriaQuery<Flight> select = criteria.select(root);
         Predicate predicate = builder.conjunction();
-        Join<Flight,Plane> join;
-
-        if (filter.getModel()!=null) {
-            join = root.join("plane");
-            predicate = builder.and(builder.equal(join.get("model"),filter.getModel()));
-        }
-
-        if (filter.getDateFlight() == null && filter.getDateFrom()!=null && filter.getDateTo()!=null)
-            predicate = builder.and(builder.between(root.get("dateFlight"), filter.getDateFrom(),filter.getDateTo()));
-
-        for(String param : filterParms.keySet()){
-            if (filterParms.get(param)!=null && !param.equals("model") &&
+        Join<Flight, Plane> join;
+        
+        for (String param : filterParms.keySet()) {
+            if (param.equals("model")) {
+                join = root.join("plane");
+                predicate = builder.and(predicate, builder.equal(join.get(param), filter.getModel()));
+            }
+            if (filterParms.get(param) != null && !param.equals("model") &&
                     !param.equals("dateFrom") && !param.equals("dateTo"))
-                predicate = builder.and(predicate, builder.equal(root.get(param),filterParms.get(param)));
+                predicate = builder.and(predicate, builder.equal(root.get(param), filterParms.get(param)));
         }
+
+        if (filter.getDateFlight() == null && filter.getDateFrom() != null && filter.getDateTo() != null)
+            predicate = builder.and(builder.between(root.get("dateFlight"), filter.getDateFrom(), filter.getDateTo()));
+
         return getEntityManager().createQuery(select.where(predicate)).getResultList();
     }
 }
