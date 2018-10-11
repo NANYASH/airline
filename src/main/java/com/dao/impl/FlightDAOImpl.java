@@ -12,6 +12,9 @@ import javax.persistence.criteria.*;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Repository
 @Transactional
@@ -56,22 +59,26 @@ public class FlightDAOImpl extends GenericDAO implements FlightDAO {
         Root<Flight> root = criteria.from(Flight.class);
         Join<Flight, Plane> join;
 
-        Predicate predicate = builder.conjunction();
+        Predicate predicate  = builder.conjunction();
 
-        // Set<String> params = filterParms.keySet().stream().filter(param -> Objects.nonNull(param)).collect(Collectors.toSet());
+        List<String> params = filterParms.entrySet().stream()
+                .filter(param -> param.getValue() != null)
+                .filter(param -> !param.getKey().equals("dateTo"))
+                .filter(param -> !param.getKey().equals("dateFrom"))
+                .map(param -> param.getKey())
+                .collect(Collectors.toList());
 
-        for (String param : filterParms.keySet()) {
+        for (String param : params) {
             if (param.equals("model")) {
                 join = root.join("plane");
                 predicate = builder.and(predicate, builder.equal(join.get(param), filter.getModel()));
+                continue;
             }
-            if (filterParms.get(param) != null && !param.equals("model") &&
-                    !param.equals("dateFrom") && !param.equals("dateTo"))
-                predicate = builder.and(predicate, builder.equal(root.get(param), filterParms.get(param)));
+            predicate = builder.and(predicate, builder.equal(root.get(param), filterParms.get(param)));
         }
-
+        
         if (filter.getDateFlight() == null && filter.getDateFrom() != null && filter.getDateTo() != null)
-            predicate = builder.and(builder.between(root.get("dateFlight"), filter.getDateFrom(), filter.getDateTo()));
+            predicate = builder.and(predicate, builder.between(root.get("dateFlight"), filter.getDateFrom(), filter.getDateTo()));
 
         return getEntityManager().createQuery(criteria.select(root).where(predicate)).getResultList();
     }
