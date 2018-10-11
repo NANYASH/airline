@@ -76,8 +76,8 @@ public class FlightDAOImpl extends GenericDAO implements FlightDAO {
             }
             predicate = builder.and(predicate, builder.equal(root.get(param), filterParms.get(param)));
         }
-        
-        if (filter.getDateFlight() == null && filter.getDateFrom() != null && filter.getDateTo() != null)
+
+        if (filter.getDateFrom() != null && filter.getDateTo() != null)
             predicate = builder.and(predicate, builder.between(root.get("dateFlight"), filter.getDateFrom(), filter.getDateTo()));
 
         return getEntityManager().createQuery(criteria.select(root).where(predicate)).getResultList();
